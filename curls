@@ -1,0 +1,42 @@
+# Create account for yourself
+curl -X POST http://localhost:8080/api/admin/create-user \
+  -H "Content-Type: application/json" \
+  -d '{
+    "username": "fre",
+    "password": "mezzanine",
+    "displayName": "fre",
+    "adminKey": "Zndstr38mezzanine",
+    "isAdmin": true
+  }'
+
+  # Create account for Aaron
+curl -X POST http://localhost:8080/api/admin/create-user \
+  -H "Content-Type: application/json" \
+  -d '{
+    "username": "Aaron",
+    "password": "lunipuni38",
+    "displayName": "Aaron",
+    "adminKey": "Zndstr38mezzanine"
+  }'
+
+
+  # Create account for Lara
+curl -X POST http://localhost:8080/api/admin/create-user \
+  -H "Content-Type: application/json" \
+  -d '{
+    "username": "Lara",
+    "password": "lunipuni38",
+    "displayName": "Lara",
+    "adminKey": "Zndstr38mezzanine"
+  }'
+
+
+ # Create account for Leen
+curl -X POST http://localhost:8080/api/admin/create-user \
+  -H "Content-Type: application/json" \
+  -d '{
+    "username": "Leen",
+    "password": "lunakira",
+    "displayName": "Leen",
+    "adminKey": "Zndstr38mezzanine"
+  }'
