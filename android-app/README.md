@@ -22,7 +22,31 @@ Native Android app for the Moving Decisions platform. This app allows your famil
 
 ## Building the APK
 
-### Option 1: Using Android Studio (Recommended)
+### Option 1: Using Docker (Recommended for NixOS/Linux)
+
+**Perfect for NixOS users** - avoids all SDK and environment setup issues!
+
+**Requirements:**
+- Docker installed and running
+
+**Build the APK:**
+```bash
+cd android-app
+./build-docker.sh
+```
+
+That's it! The script will:
+- Build a Docker image with Android SDK and all dependencies
+- Compile your APK inside the container
+- Output the APK to: `app/build/outputs/apk/release/app-release-unsigned.apk`
+
+**Why Docker?**
+- ✅ Works on any system (NixOS, Ubuntu, macOS, etc.)
+- ✅ No need to install Android SDK locally
+- ✅ Reproducible builds every time
+- ✅ Avoids NixOS-specific issues with Android tooling
+
+### Option 2: Using Android Studio
 
 1. **Install Android Studio**
    - Download from: https://developer.android.com/studio
@@ -47,7 +71,7 @@ Native Android app for the Moving Decisions platform. This app allows your famil
    - Click Finish
    - Signed APK will be in: `app/release/app-release.apk`
 
-### Option 2: Using Command Line
+### Option 3: Using Command Line (Not recommended for NixOS)
 
 1. **Install Java Development Kit (JDK)**
    ```bash
@@ -87,13 +111,7 @@ Native Android app for the Moving Decisions platform. This app allows your famil
    - Unsigned APK: `app/build/outputs/apk/release/app-release-unsigned.apk`
    - To sign it, use `jarsigner` or Android Studio
 
-### Quick Build Script
-
-For convenience, you can use this one-liner (requires Android SDK):
-
-```bash
-cd android-app && ./gradlew assembleRelease && cd ..
-```
+**Note for NixOS users:** Command-line builds can be problematic due to pre-compiled Android tools (AAPT2) expecting a standard Linux filesystem. Use the Docker method (Option 1) instead.
 
 ## Installing the APK
 
