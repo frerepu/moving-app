@@ -2,6 +2,8 @@
 
 A full-stack web application to help families decide what to do with items during a move. Features authentication, image uploads, and collaborative voting.
 
+**NEW:** Native Android app available! See `android-app/` folder for APK distribution.
+
 ## Features
 
 ✅ **User Authentication** - Simple username/password login with JWT tokens
@@ -12,7 +14,8 @@ A full-stack web application to help families decide what to do with items durin
 ✅ **Decision Tracking** - Stats show how many items are moving, tossing, or giving away
 ✅ **Persistent Storage** - SQLite database, survives restarts
 ✅ **Responsive Design** - Works great on phones and desktop
-✅ **Self-Hosted** - Full control of your data  
+✅ **Self-Hosted** - Full control of your data
+✅ **Native Android App** - Install APK directly on Android phones (Android 7.0+)  
 
 ## Quick Start
 
@@ -82,9 +85,18 @@ curl -X POST http://localhost:8080/api/admin/create-user \
 
 ### 4. Share Access
 
+**Option A: Web Browser**
 Send the kids:
 - The URL: `http://your-server-ip:8080` (or your domain)
 - Their username and password
+
+**Option B: Android App (Recommended for phones)**
+1. Build the APK (see `android-app/README.md`)
+2. Send them the APK file to install
+3. They configure server URL on first launch
+4. Login with username and password
+
+See the [Android App README](android-app/README.md) for complete build and installation instructions.
 
 ## How It Works
 
@@ -96,7 +108,8 @@ Send the kids:
 
 ## Architecture
 
-- **Frontend**: React + Vite + Tailwind CSS
+- **Web Frontend**: React + Vite + Tailwind CSS
+- **Android App**: Kotlin + Jetpack Compose + Material Design 3
 - **Backend**: Node.js + Express
 - **Database**: SQLite (in `backend/data/moving.db`)
 - **Images**: Stored in `backend/data/uploads/`
