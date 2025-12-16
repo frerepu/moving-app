@@ -1,0 +1,23 @@
+LAUNCHER ICON PLACEHOLDER
+=========================
+
+The Android app needs launcher icons in the following directories:
+- app/src/main/res/mipmap-mdpi/ic_launcher.png (48x48)
+- app/src/main/res/mipmap-hdpi/ic_launcher.png (72x72)
+- app/src/main/res/mipmap-xhdpi/ic_launcher.png (96x96)
+- app/src/main/res/mipmap-xxhdpi/ic_launcher.png (144x144)
+- app/src/main/res/mipmap-xxxhdpi/ic_launcher.png (192x192)
+
+And round versions:
+- app/src/main/res/mipmap-mdpi/ic_launcher_round.png (48x48)
+- app/src/main/res/mipmap-hdpi/ic_launcher_round.png (72x72)
+- app/src/main/res/mipmap-xhdpi/ic_launcher_round.png (96x96)
+- app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png (144x144)
+- app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png (192x192)
+
+You can create these icons using Android Studio's Image Asset tool or any online
+Android icon generator like:
+- https://romannurik.github.io/AndroidAssetStudio/icons-launcher.html
+- https://icon.kitchen/
+
+For now, you can build without custom icons and Android will use the default icon.

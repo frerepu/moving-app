@@ -24,3 +24,14 @@ Thumbs.db
 .idea/
 *.swp
 *.swo
+
+# Android
+android-app/.gradle/
+android-app/build/
+android-app/app/build/
+android-app/local.properties
+android-app/.idea/
+android-app/*.iml
+android-app/captures/
+android-app/.externalNativeBuild/
+android-app/.cxx/
