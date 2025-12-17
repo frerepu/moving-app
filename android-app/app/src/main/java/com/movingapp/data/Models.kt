@@ -31,7 +31,7 @@ data class Item(
 data class Vote(
     val user_id: Int,
     val username: String,
-    val vote: String,
+    val vote: String?,
     val comment: String?
 )
 

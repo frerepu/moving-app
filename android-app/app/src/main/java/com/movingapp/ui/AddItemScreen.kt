@@ -58,7 +58,8 @@ fun AddItemScreen(
         contract = ActivityResultContracts.RequestPermission()
     ) { isGranted ->
         if (isGranted) {
-            val photoFile = File(context.cacheDir, "photo_${System.currentTimeMillis()}.jpg")
+            val imagesDir = File(context.cacheDir, "images").apply { mkdirs() }
+            val photoFile = File(imagesDir, "photo_${System.currentTimeMillis()}.jpg")
             val uri = FileProvider.getUriForFile(
                 context,
                 "${context.packageName}.fileprovider",
@@ -210,7 +211,8 @@ fun AddItemScreen(
                             ) == PackageManager.PERMISSION_GRANTED
 
                             if (hasPermission) {
-                                val photoFile = File(context.cacheDir, "photo_${System.currentTimeMillis()}.jpg")
+                                val imagesDir = File(context.cacheDir, "images").apply { mkdirs() }
+                                val photoFile = File(imagesDir, "photo_${System.currentTimeMillis()}.jpg")
                                 val uri = FileProvider.getUriForFile(
                                     context,
                                     "${context.packageName}.fileprovider",

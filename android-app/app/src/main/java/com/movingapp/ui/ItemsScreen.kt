@@ -158,6 +158,7 @@ fun StatItem(label: String, count: Int, color: Color) {
 fun ItemCard(item: Item, viewModel: MainViewModel) {
     var showVoteDialog by remember { mutableStateOf<VoteType?>(null) }
     var showDeleteDialog by remember { mutableStateOf(false) }
+    var showAdminControls by remember { mutableStateOf(false) }
     val user = viewModel.user.value
     val userVote = viewModel.getUserVote(item)
 
@@ -254,7 +255,7 @@ fun ItemCard(item: Item, viewModel: MainViewModel) {
                             color = getVoteColor(vote.vote)
                         )
                         Text(
-                            text = VoteType.values().find { it.value == vote.vote }?.label ?: vote.vote,
+                            text = VoteType.values().find { it.value == vote.vote }?.label ?: vote.vote ?: "Unknown",
                             style = MaterialTheme.typography.bodyMedium,
                             color = getVoteColor(vote.vote)
                         )
@@ -303,25 +304,69 @@ fun ItemCard(item: Item, viewModel: MainViewModel) {
                 Spacer(modifier = Modifier.height(12.dp))
                 Divider()
                 Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    "Finalize Decision (Admin Only)",
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+
+                // Expandable admin section
+                OutlinedButton(
+                    onClick = { showAdminControls = !showAdminControls },
+                    modifier = Modifier.fillMaxWidth()
                 ) {
-                    VoteType.values().forEach { voteType ->
-                        Button(
-                            onClick = { viewModel.finalizeDecision(item.id, voteType.value) },
-                            modifier = Modifier.weight(1f),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = getVoteColor(voteType.value)
+                    Icon(
+                        if (showAdminControls) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
+                        contentDescription = null
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text("Finalize Decision (Admin Only)")
+                }
+
+                if (showAdminControls) {
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.3f)
+                        )
+                    ) {
+                        Column(modifier = Modifier.padding(12.dp)) {
+                            Text(
+                                "⚠️ This will finalize the decision for all users",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurface
                             )
-                        ) {
-                            Icon(Icons.Default.CheckCircle, contentDescription = null, modifier = Modifier.size(16.dp))
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                VoteType.values().forEach { voteType ->
+                                    Button(
+                                        onClick = {
+                                            viewModel.finalizeDecision(item.id, voteType.value)
+                                            showAdminControls = false
+                                        },
+                                        modifier = Modifier.weight(1f),
+                                        colors = ButtonDefaults.buttonColors(
+                                            containerColor = getVoteColor(voteType.value)
+                                        ),
+                                        contentPadding = PaddingValues(4.dp)
+                                    ) {
+                                        Column(
+                                            horizontalAlignment = Alignment.CenterHorizontally,
+                                            verticalArrangement = Arrangement.Center
+                                        ) {
+                                            Icon(
+                                                getVoteIcon(voteType.value),
+                                                contentDescription = null,
+                                                modifier = Modifier.size(16.dp)
+                                            )
+                                            Text(
+                                                text = voteType.label.replace(" it", "").replace(" away", ""),
+                                                style = MaterialTheme.typography.labelSmall,
+                                                maxLines = 1
+                                            )
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -421,15 +466,34 @@ fun VotingButtons(
                 modifier = Modifier.weight(1f),
                 enabled = enabled,
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = if (isSelected) getVoteColor(voteType.value) else MaterialTheme.colorScheme.surfaceVariant,
-                    contentColor = if (isSelected) Color.White else MaterialTheme.colorScheme.onSurfaceVariant
-                )
+                    containerColor = getVoteColor(voteType.value).copy(alpha = if (isSelected) 1f else 0.7f),
+                    contentColor = Color.White
+                ),
+                contentPadding = PaddingValues(vertical = 8.dp, horizontal = 4.dp)
             ) {
-                Icon(
-                    getVoteIcon(voteType.value),
-                    contentDescription = voteType.label,
-                    modifier = Modifier.size(20.dp)
-                )
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Icon(
+                        getVoteIcon(voteType.value),
+                        contentDescription = voteType.label,
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Text(
+                        text = voteType.label.replace(" it", "").replace(" away", ""),
+                        style = MaterialTheme.typography.labelSmall,
+                        maxLines = 1
+                    )
+                    if (isSelected) {
+                        Spacer(modifier = Modifier.height(2.dp))
+                        Text(
+                            text = "✓",
+                            style = MaterialTheme.typography.labelSmall
+                        )
+                    }
+                }
             }
         }
     }
@@ -485,7 +549,7 @@ fun VoteDialog(
     )
 }
 
-fun getVoteColor(vote: String): Color {
+fun getVoteColor(vote: String?): Color {
     return when (vote) {
         "move" -> Color(0xFF2196F3)
         "toss" -> Color(0xFFF44336)
