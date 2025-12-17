@@ -32,7 +32,8 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MovingApp() {
-    val viewModel = remember { MainViewModel(androidx.compose.ui.platform.LocalContext.current) }
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val viewModel = remember { MainViewModel(context) }
     var currentScreen by remember { mutableStateOf<Screen>(Screen.Login) }
 
     // Auto-navigate if already logged in

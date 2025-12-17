@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
     private var token: String? = null
-    private var baseUrl: String = "http://10.0.2.2:8080/" // Default for Android emulator
+    private var baseUrl: String = "https://moving.faelterman.be/" // Production server
 
     fun setToken(newToken: String?) {
         token = newToken
